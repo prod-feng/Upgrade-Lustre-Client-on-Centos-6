@@ -46,7 +46,7 @@ and it worked pretty smooth. The compiled rpm files are there:
 
 >```......```
 
-OK, it worked. The direct rpmbuild process I used which failed seems caused by the ```lustre.spec``` file. There seems a workaround to modify the ```lustre.spec``` file, like add one line of ```"make rpms``` in it, just before the ```%install``` line, then use ```rpmbuild -tc ``` or ```rpmbuild -bc ``` accordingly. Or other way that I just missed. When to modify ```lustre.spec``` file, just realized there are 2 in total: one is with the tarball file; the other one is inside the tarball.
+OK, it worked. The direct rpmbuild process I used which failed seems caused by the ```lustre.spec``` file. There seems a workaround to modify the ```lustre.spec``` file, like add one line of ```"make rpms``` in it, just before the ```%install``` line, then use ```rpmbuild -tc ``` or ```rpmbuild -bc ``` accordingly. Or other ways that I just missed. When to modify ```lustre.spec``` file, just realized there are 2 in total: one is with the tarball file; the other one is inside the tarball.
 
 **(2) Stop and remove the old Lustre client**
 

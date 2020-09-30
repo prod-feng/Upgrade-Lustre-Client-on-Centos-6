@@ -2,9 +2,9 @@
 
 The following is my personal experience, use at one's own risk.
 
-I have a legacy server which runs Centos 6.4 and Lustre 1.8.9. Recdently to be able to mount our new on production Lustre strorage on it, it is unavoidable that we need to upgrade this server. I planned to upgrade the Lustre client module only, so our legacy apps can still run instead of upgrade the whole OS.
+I have a legacy server which runs Centos 6.4 and Lustre 1.8.9. Recently, to be able to mount our new on production Lustre strorage on it, it is unavoidable that we have to upgrade this server to a much newer Lustre client version. I planned to upgrade the Lustre client kernel module only, first, because it had KMOD installed already, also our legacy apps can still run instead of upgrade the whole OS.
 
-I found the source rpm files on https://downloads.whamcloud.com/public/lustre/. It seems to me that version lustre-2.10.8 is the most recent version which supports Centos 6(with pre-compiled binary rpms). I decided to compile the Lustre client from source:
+I found the source rpm files from https://downloads.whamcloud.com/public/lustre/. It seems to me that version lustre-2.10.8 is the most recent version which supports Centos 6(comes with pre-compiled binary rpms). I decided to compile the Lustre client from source:
 
 
 **(1). Download and compile the Lustre source code to local server.**
@@ -24,9 +24,9 @@ I found the source rpm files on https://downloads.whamcloud.com/public/lustre/. 
 
 >```......```
 
-To compile the source code, I needed to install some extra packages, the compiling process propmted those usefull information for reminding.
+To compile the source code, I needed to install some extra packages, the compiling process propmted those usefull information for referecing.
 
-I first tried to use rpmbuild version 4.8.0-59. It seems any earlier rpmbuild version can not work. I decided to run rpmbuild as a regular user to compile the code, instead of run it as an admin, in case it may cause mess. To do this, I need to set the rpm macro of "~/.rpmmacros", with somwthing like a line of "%_topdir    /local/feng/rpm". There I have enough local disk space, not NFS which I heard may cause issue.
+I first tried to use rpmbuild version 4.8.0-59. It seems any earlier rpmbuild version can not work. I decided to run rpmbuild as a regular user to compile the code, instead of running it as an admin, in case it may cause mess. To do this, I need to set the rpm macro of "~/.rpmmacros", with something like a line of "%_topdir    /local/feng/rpm". There I have enough local disk space, not NFS which I heard may cause issue.
 
 The rpmbuild process did not go well:
 
@@ -46,19 +46,19 @@ and it worked pretty smooth. The compiled rpm files are there:
 
 >```......```
 
-OK, it worked. The direct rpmbuild process I used which failed seems caused by the ```lustre.spec``` file. There seems a workaround to modify the ```lustre.spec``` file, like add one line of ```"make rpms``` in it, just before the ```%install``` line, then use ```rpmbuild -tc ``` or ```rpmbuild -bc ``` accordingly. Or other ways that I just missed. When to modify ```lustre.spec``` file, just realized there are 2 in total: one is with the tarball file; the other one is inside the tarball.
+OK, it worked. The direct rpmbuild process I used which failed seems caused by the ```lustre.spec``` file. There seems to be a workaround to modify the ```lustre.spec``` file, like add one line of ```"make rpms``` in it, just before the ```%install``` line, then use ```rpmbuild -tc ``` or ```rpmbuild -bc ``` accordingly. Or other ways that I just missed. When tried to modify ```lustre.spec``` file, just realized there are 2 in total: one is with the tarball file; the other one is inside the tarball.
 
 **(2) Stop and remove the old Lustre client**
 
-This stage needs to be extra careful if there are mounted Lustre storage(s) on the local server. To work on this stage, I need to use amin account.
+This stage needs to be extra careful if there are mounted Lustre storage(s) on the local server. To work on this stage, I need to use admin account.
 
 First make sure nobody is using the mounted Lustre storage, if so, unmount all the mounted Lustre storage.
 
 ```[root@server1 ~]# umount /mnt/myluster```
 
-Second, after unmount all luster storages on the local server:
+After unmount all luster storages on the local server:
 
-**(2.A) unload the old Lustre client module from the kernel:**
+**(2.A) Unload the old Lustre client module from the kernel:**
 
 ```[root@server1 ~]# lustre_rmmod```
 
@@ -74,7 +74,7 @@ Since I used rpm to install the old Lustre client, so I use rpm tool to remove t
 
 At this tep, I got an error message complaining: ```" error: %preun(lustre-client-modules-1.8.9-wc1_*.x86_64) scriptlet failed, exit status 1"```
 
-So I have to force rpm to remove it anyway:
+So I had to force rpm to remove it anyway:
 
 ```[root@server1 ~]# rpm --noscripts -e lustre-client-modules-1.8.9```
 
@@ -86,7 +86,7 @@ Once this is done, I now have a clean OS without Luster client. And it's time to
 
 **(3) Install the new Lustre Client**
 
-This step is straitforward.
+This step is straightforward.
 
 ```[root@server1 ~]# rpm -ivh lustre-client-2.10.8-1.el6.x86_64.rpm kmod-lustre-client-2.10.8-1.el6.x86_64.rpm```
 
@@ -94,7 +94,7 @@ If it works without any error, then add the new Lustre client module into the OS
 
 ```[root@server1 ~]# modprobe lustre```
 
-Now we are almost done. Make sure the Lsuer client module is there:
+Now we are almost done. Make sure the Luster client module is there:
 
 
 ```[root@server1 ~]# lsmod |grep -i lustre```

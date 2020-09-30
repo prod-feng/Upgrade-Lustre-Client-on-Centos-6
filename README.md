@@ -7,7 +7,7 @@ I have a legacy server which runs Centos 6.4 and Lustre 1.8.9. Recdently to be a
 I found the source rpm files on https://downloads.whamcloud.com/public/lustre/. It seems to me that version lustre-2.10.8 is the most recent version which supports Centos 6(with pre-compiled binary rpms). I decided to compile the Lustre client from source:
 
 
-(1). Download and compile the Lustre source code to local server.
+**(1). Download and compile the Lustre source code to local server.**
 
 ```[feng@server1 ~]$ wget  --no-check-certificate https://downloads.whamcloud.com/public/lustre/lustre-2.10.8/el6/client/SRPMS/lustre-2.10.8-1.src.rpm```
 
@@ -48,7 +48,7 @@ and it worked pretty smooth. The compiled rpm files are there:
 
 OK, it worked. The direct rpmbuild process I used which failed seems caused by the ```lustre.spec``` file. There seems a workaround to modify the ```lustre.spec``` file, like add one line of ```"make rpms``` in it, just before the ```%install``` line. Or other way that I just missed. When to modify ```lustre.spec``` file, just realized there are 2 in total: one is with the tarball file; the other one is inside the tarball.
 
-(2) Stop and remove the old Lustre client
+**(2) Stop and remove the old Lustre client**
 
 This stage needs to be extra careful if there are mounted Lustre storage(s) on the local server. To work on this stage, I need to use amin account.
 
@@ -58,7 +58,7 @@ First make sure nobody is using the mounted Lustre storage, if so, unmount all t
 
 Second, after unmount all luster storages on the local server:
 
-(2.A) unload the old Lustre client module from the kernel:
+**(2.A) unload the old Lustre client module from the kernel:**
 
 ```[root@server1 ~]# lustre_rmmod```
 
@@ -66,7 +66,7 @@ Then make sure there is no Lustre cleint module there in the OS kernel.
 
 ```[root@server1 ~]# lsmod |grep -i lustre```
 
-(2.B) Remove the old Lustre client packages.
+**(2.B) Remove the old Lustre client packages.**
 
 Since I used rpm to install the old Lustre client, so I use rpm tool to remove them.
 
@@ -84,7 +84,7 @@ If the old Lustre client was installed without rpm tool, I probably would have t
 
 Once this is done, I now have a clean OS without Luster client. And it's time to install the new one that I just have compiled.
 
-(3) Install the new Lustre Client
+**(3) Install the new Lustre Client**
 
 This step is straitforward.
 
@@ -99,7 +99,7 @@ Now we are almost done. Make sure the Lsuer client module is there:
 
 ```[root@server1 ~]# lsmod |grep -i lustre```
 
-(4) Mount the Lustre storage on the local server.
+**(4) Mount the Lustre storage on the local server.**
 
 
 ```[root@server1 ~]# mount /mnt/myluster```

@@ -2,7 +2,7 @@
 
 The following is my personal experience, use at one's own risk.
 
-I have a legacy server which runs Centos 6.4 and Lustre 1.8.9. Recently, to be able to mount our new on production Lustre strorage on it, it is unavoidable that we have to upgrade this server to a much newer Lustre client version. I planned to upgrade the Lustre client kernel module only, first, because it had KMOD installed already, also our legacy apps can still run instead of upgrade the whole OS.
+I have a legacy server which runs Centos 6.4 and Lustre 1.8.9. Recently, to be able to mount our new on production Lustre strorage on it, it is unavoidable that we have to upgrade this server to a much newer Lustre client version. I planned to upgrade the Lustre client kernel module only, first, because it had KMOD installed already, also our legacy apps can still run instead of upgrading the whole OS.
 
 I found the source rpm files from https://downloads.whamcloud.com/public/lustre/. It seems to me that version lustre-2.10.8 is the most recent version which supports Centos 6(comes with pre-compiled binary rpms). I decided to compile the Lustre client from source:
 
@@ -24,7 +24,7 @@ I found the source rpm files from https://downloads.whamcloud.com/public/lustre/
 
 >```......```
 
-To compile the source code, I needed to install some extra packages, the compiling process propmted those usefull information for referecing.
+To compile the source code, I needed to install some extra packages, the compiling process propmted those usefull information for referencing.
 
 I first tried to use rpmbuild version 4.8.0-59. It seems any earlier rpmbuild version can not work. I decided to run rpmbuild as a regular user to compile the code, instead of running it as an admin, in case it may cause mess. To do this, I need to set the rpm macro of "~/.rpmmacros", with something like a line of "%_topdir    /local/feng/rpm". There I have enough local disk space, not NFS which I heard may cause issue.
 
@@ -46,17 +46,17 @@ and it worked pretty smooth. The compiled rpm files are there:
 
 >```......```
 
-OK, it worked. The direct rpmbuild process I used which failed seems caused by the ```lustre.spec``` file. There seems to be a workaround to modify the ```lustre.spec``` file, like add one line of ```"make rpms``` in it, just before the ```%install``` line, then use ```rpmbuild -tc ``` or ```rpmbuild -bc ``` accordingly. Or other ways that I just missed. When tried to modify ```lustre.spec``` file, just realized there are 2 in total: one is with the tarball file; the other one is inside the tarball.
+OK, it worked. The direct rpmbuild process I used which failed seems caused by the ```lustre.spec``` file. There seems to be a workaround to modify the ```lustre.spec``` file, like add one line of ```"make rpms``` in it, just before the ```%install``` line, then use ```rpmbuild -tc ``` or ```rpmbuild -bc ``` accordingly. Or there may be some other ways to make it work that I just missed. When tried to modify ```lustre.spec``` file, I just realized there are actualy 2 of it in total: one is with the tarball file; the other one is inside the tarball.
 
 **(2) Stop and remove the old Lustre client**
 
-This stage needs to be extra careful if there are mounted Lustre storage(s) on the local server. To work on this stage, I need to use admin account.
+This stage needs to be extreamly careful if there are mounted Lustre storage(s) on the local server. To work on this stage, I need to use admin account.
 
 First make sure nobody is using the mounted Lustre storage, if so, unmount all the mounted Lustre storage.
 
 ```[root@server1 ~]# umount /mnt/myluster```
 
-After unmount all luster storages on the local server:
+Once all luster storages on the local server have been unmounted, I can work on the next step.
 
 **(2.A) Unload the old Lustre client module from the kernel:**
 
@@ -80,7 +80,7 @@ So I had to force rpm to remove it anyway:
 
 After that, make sure the old Lustre client files are cleanly removed, expecially the kernel module files, like the ```"lustre.ko"```. They are always in ```/lib/modules/{mykenel}/``` folder, I can use ```find /lib/modules/{mykenel}/ -name lustre.ko```, etc, to verify if they are still there.
 
-If the old Lustre client was installed without rpm tool, I probably would have to manually remove all of the old Lustre files.
+If the old Lustre client was installed without rpm tool, I probably would have to manually remove all of these old Lustre files.
 
 Once this is done, I now have a clean OS without Luster client. And it's time to install the new one that I just have compiled.
 

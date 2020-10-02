@@ -101,7 +101,7 @@ Now we are almost done. Make sure the Luster client module is there:
 
 ```[root@server1 ~]# lsmod |grep -i lustre```
 
-**Mount the Lustre storage on the local server.**
+** Finally mount the Lustre storage on the local server.**
 
 
 ```[root@server1 ~]# mount /mnt/myluster```

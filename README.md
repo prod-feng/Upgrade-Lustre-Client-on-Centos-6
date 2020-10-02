@@ -6,7 +6,7 @@ I have a legacy server which runs Centos 6.4 and Lustre 1.8.9. Recently, to be a
 
 I found the source rpm files from https://downloads.whamcloud.com/public/lustre/. It seems to me that version lustre-2.10.8 is the most recent version which supports Centos 6(comes with pre-compiled binary rpms). I decided to compile the Lustre client from source:
 
-**The whole process mainly includes 3 steps: compile Lustre from source code; uninstall Lustre client; install new Lustre client, on CentOS 6.4.**
+The whole process mainly includes 3 steps: **compile Lustre from source code; uninstall Lustre client; install new Lustre client, on CentOS 6.4.**
 
 
 **(1). Download and compile the Lustre source code to local server.**
@@ -101,7 +101,7 @@ Now we are almost done. Make sure the Luster client module is there:
 
 ```[root@server1 ~]# lsmod |grep -i lustre```
 
-** Finally mount the Lustre storage on the local server.**
+**Finally mount the Lustre storage on the local server.**
 
 
 ```[root@server1 ~]# mount /mnt/myluster```

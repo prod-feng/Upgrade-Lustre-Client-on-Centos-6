@@ -72,13 +72,13 @@ Since I used rpm to install the old Lustre client, so I use rpm tool to remove t
 
 ```[root@server1 ~]# rpm -e lustre-client-modules-1.8.9 lustre-client-1.8.9```
 
-At this tep, I got an error message complaining: ```" error: %preun(lustre-client-modules-1.8.9-wc1_*.x86_64) scriptlet failed, exit status 1"```
+At this step, I got an error message complaining: ```" error: %preun(lustre-client-modules-1.8.9-wc1_*.x86_64) scriptlet failed, exit status 1"```
 
 So I had to force rpm to remove it anyway:
 
 ```[root@server1 ~]# rpm --noscripts -e lustre-client-modules-1.8.9```
 
-After that, make sure the old Lustre client files are cleanly removed, expecially the kernel module files, like the ```"lustre.ko"```. They are always in ```/lib/modules/{mykenel}/``` folder, I can use ```find /lib/modules/{mykenel}/ -name lustre.ko```, etc, to verify if they are still there.
+After that, make sure the old Lustre client files are cleanly removed, expecially the kernel module files, like the ```"lustre.ko"```. They are always in ```/lib/modules/{mykenel}/``` folder, I can use ```find /lib/modules/{mykenel}/ -name lustre.ko```, etc, to verify if they are still there or removed already.
 
 If the old Lustre client was installed without rpm tool, I probably would have to manually remove all of these old Lustre files.
 

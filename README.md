@@ -4,9 +4,9 @@ The following is my personal experience, use at one's own risk.
 
 I have a legacy server which runs Centos 6.4 and Lustre 1.8.9. Recently, to be able to mount our new on production Lustre strorage on it, it is unavoidable that we have to upgrade this server to a much newer Lustre client version. I planned to upgrade the Lustre client kernel module only, first, because it had KMOD installed already, also our legacy apps can still run instead of upgrading the whole OS.
 
-The whole process mainly includes 3 steps: compile Lustre from source code; uninstall Lustre client; install new Lustre client, on CentOS 6.4.
-
 I found the source rpm files from https://downloads.whamcloud.com/public/lustre/. It seems to me that version lustre-2.10.8 is the most recent version which supports Centos 6(comes with pre-compiled binary rpms). I decided to compile the Lustre client from source:
+
+**The whole process mainly includes 3 steps: compile Lustre from source code; uninstall Lustre client; install new Lustre client, on CentOS 6.4.**
 
 
 **(1). Download and compile the Lustre source code to local server.**
@@ -101,7 +101,7 @@ Now we are almost done. Make sure the Luster client module is there:
 
 ```[root@server1 ~]# lsmod |grep -i lustre```
 
-**(4) Mount the Lustre storage on the local server.**
+**Mount the Lustre storage on the local server.**
 
 
 ```[root@server1 ~]# mount /mnt/myluster```

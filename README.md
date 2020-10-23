@@ -32,7 +32,7 @@ I first tried to use rpmbuild version 4.8.0-59. It seems any earlier rpmbuild ve
 
 The rpmbuild process did not go well:
 
-```[feng@server1 ~]$ rpmbuild -ta lustre-2.8.0.tar.gz ```
+```[feng@server1 ~]$ rpmbuild -ta lustre-2.10.8.tar.gz ```
 
 the compilation failed at install stage, which complains a file/folder can not be found. Then, I decided to go straight and compile manually:
 
